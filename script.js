@@ -1,57 +1,63 @@
-function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+const options = ['Rock', 'Paper', 'Scissors'];
+let playerScore = 0;
+let computerScore = 0;
+let tieScore = 0;
+
+function randomNumberZeroOneTwo() {
+    return Math.floor(Math.random() * 3)
 }
 
 function computerPlay() {
-    const moves = ['Rock', 'Paper', 'Scissors'];
-    const randomNumberBetween0and2 = Math.floor(Math.random() * 3);
-    console.log(randomNumberBetween0and2);
-    return moves[randomNumberBetween0and2];
+    return options[randomNumberZeroOneTwo()]
 }
 
-function playRound(playerSelection, computerSelection) {
-    playerSelection = prompt("Rock, paper, scissors: shoot!", "Rock");
-    playerSelection = capitalize(playerSelection);
-    computerSelection = computerPlay();
-    let playerScore = 0;
-    let computerScore = 0;
+function titleCase(str) {
+    str = str.toLowerCase().split(' ');
+    for (let i = 0; i < str.length; i++) {
+        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+    }
+    return str.join(' ');
+}
 
-    if (playerSelection == computerSelection) {
-        result = "don't win or lose";
-        winner = "Nobody";
-        loser = "anybody";
-    } else if (
-        computerSelection == 'Rock' && playerSelection == 'Scissors' ||
-        computerSelection == 'Scissors' && playerSelection == 'Paper' ||
-        computerSelection == 'Paper' && playerSelection == 'Rock') {
-            result = 'lose';
-            winner = computerSelection;
-            loser = playerSelection;
-            computerScore ++;
-        } else {
-            result = 'win';
-            winner = playerSelection;
-            loser = computerSelection;
-            playerScore ++;
-        }
-    const resultMessage = `You ${result}! ${winner} beats ${loser}.`;
-    alert(resultMessage);
-    return {playerScore, computerScore, resultMessage};
+function playSingleRound(playerSelection, computerSelection) {
+    playerSelection = prompt("Rock, paper, or scissors?", "rock");
+    playerSelection = titleCase(playerSelection);
+    computerSelection = titleCase(computerPlay());
+
+    if (playerSelection === computerSelection) {
+        let result = "don't win or lose";
+        let winner = "Nobody";
+        let loser = "anybody";
+        let resultMessage = `You ${result}! ${winner} beats ${loser}.`
+        tieScore ++;
+        return playerScore, computerScore, resultMessage;
+    } else if ((computerSelection == 'Rock' && playerSelection == 'Scissors') || (computerSelection == 'Paper' && playerSelection == 'Rock' ) || (computerSelection == 'Scissors' && playerSelection == 'Paper')) {
+        result = "Lose";
+        winner = computerSelection;
+        loser = playerSelection;
+        resultMessage = `You ${result}! ${winner} beats ${loser}.`
+        computerScore ++;
+        return playerScore, computerScore, resultMessage;
+    } else {
+        result = "Win";
+        winner = playerSelection;
+        loser = computerSelection;
+        resultMessage = `You ${result}! ${winner} beats ${loser}.`
+        playerScore ++;
+        return playerScore, computerScore, resultMessage;
+    }
 }
 
 function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-
-    for (i = 0; i < 5; i++) {
-        let round = playRound();
-        playerScore += round.playerScore;
-        computerScore += round.computerScore;
-    } 
-
-    if (playerScore > computerScore) {
-        
-    }
-
-    alert(`Thanks for playing! The final score was ${playerScore} to ${computerScore}.`)
+    playSingleRound();
+    playSingleRound();
+    playSingleRound();
+    playSingleRound();
+    playSingleRound();
+    let resultMessage = `You scored ${playerScore}! The computer scored ${computerScore}. There were ${tieScore} tie games.`;
+    playerScore = 0;
+    computerScore = 0;
+    tieScore = 0;
+    alert(resultMessage);
+    return resultMessage;
 }
