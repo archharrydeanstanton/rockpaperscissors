@@ -17,13 +17,13 @@ function computerPlay() {
 }
 
 const handleClick = (e) => {
-    playerSelection = e.target.innerHTML;
+    playerSelection = e.target.innerText;
     playRound(playerSelection, computerSelection);
 }
 
 options.forEach(option => {
     const button = document.createElement("button");
-    button.innerHTML = option;
+    button.innerText = option;
     button.addEventListener("click", handleClick)
     optionsDisplay.appendChild(button);
 })
